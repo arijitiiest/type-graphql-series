@@ -16,12 +16,12 @@ const main = async () => {
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [MeResolver, RegisterResolver, LoginResolver]
+    resolvers: [MeResolver, RegisterResolver, LoginResolver],
   });
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }: any) => ({ req })
+    context: ({ req }: any) => ({ req }),
   });
 
   const app = Express();
@@ -31,14 +31,14 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: "http://localhost:3000"
+      origin: "http://localhost:3000",
     })
   );
 
   app.use(
     session({
       store: new RedisStore({
-        client: redis as any
+        client: redis as any,
       }),
       name: "qid",
       secret: "aslkdfjoiq12312",
@@ -47,8 +47,8 @@ const main = async () => {
       cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: 1000 * 60 * 60 * 24 * 7 * 365 // 7 years
-      }
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 365, // 7 years
+      },
     })
   );
 
